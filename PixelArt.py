@@ -39,10 +39,10 @@ class PixelArt:
 
     def generateGIF(self, dur=5):
         images = []
-        for i in np.arange(0, 100, 5):
+        for i in np.arange(0, 105, 5):
             self.combineImages(i)
             images.append(self.combinedImg)
-        iio.imwrite('PixelledGIF.gif', images, duration=dur)
+        iio.imwrite('PixelledGIF.gif', images, duration=dur, loop=0)
         optimize('PixelledGIF.gif')
 
     def generateDirection(self):
