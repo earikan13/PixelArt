@@ -59,12 +59,12 @@ class PixelArt:
             self.combineImages(i, direction)
             images.append(self.combinedImg)
         iio.imwrite('PixelledGIF.gif', images, duration=dur, loop=0)
-        optimize('PixelledGIF.gif')
+        optimize('PixelledGIF.gif', colors=128)
 
     def generateDirection(self):
         rng = np.random.default_rng()
         # 0->left, 1->right, 2->up, 3->down
-        direction = rng.integers(low=2, high=4, size=1)
+        direction = rng.integers(low=0, high=4, size=1)
         return direction
 
     def plotImage(self):
