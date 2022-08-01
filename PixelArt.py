@@ -15,14 +15,19 @@ from pygifsicle import optimize
 
 class PixelArt:
 
-    def __init__(self, img, imgExtension):
+    def __init__(self, img, imgExtension, downscalePerc=10):
+        self.downscalePerc = downscalePerc
         self.imgName = str(img)
         self.img = cv2.imread(self.imgName + '.' + str(imgExtension))
         self.img = cv2.cvtColor(self.img, cv2.COLOR_BGR2RGB)
         self.imgHeight, self.imgWidth = self.img.shape[:-1]
+        self.imgHeight = int(self.imgHeight / downscalePerc)
+        self.imgWidth = int(self.imgWidth / downscalePerc)
+        self.img = cv2.resize(
+            self.img, (self.imgWidth, self.imgHeight), cv2.INTER_LINEAR)
 
     def pixelImage(self):
-        scale_percent = 3  # percent of original size
+        scale_percent = 3 * self.downscalePerc  # percent of original size
         width = int(self.img.shape[1] * scale_percent / 100)
         height = int(self.img.shape[0] * scale_percent / 100)
         self.pixelledImage = cv2.resize(
@@ -59,7 +64,7 @@ class PixelArt:
             self.combineImages(i, direction)
             images.append(self.combinedImg)
         iio.imwrite('PixelledGIF.gif', images, duration=dur, loop=0)
-        optimize('PixelledGIF.gif', colors=128)
+        optimize('PixelledGIF.gif')
 
     def generateDirection(self):
         rng = np.random.default_rng()
