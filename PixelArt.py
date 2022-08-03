@@ -60,7 +60,7 @@ class PixelArt:
             tmpImg = self.img[step:]
             self.combinedImg = np.vstack((tmpPixelImg, tmpImg))
 
-    def generateGIF(self, dur=5):
+    def generateGIF(self, dur):
         images = []
         direction = self.generateDirection()
         for i in np.arange(0, 105, 5):

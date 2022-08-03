@@ -11,7 +11,7 @@ import sys
 import os
 from pathlib import Path
 
-waitDuration = 0.5
+waitDuration = 5
 possibleExtensions = [".JPG", ".jpg", ".PNG", ".png", ".JPEG", ".jpeg"]
 
 
@@ -27,7 +27,7 @@ def main():
             if not os.path.isfile(tmpPath):
                 pA = PixelArt(photosDir + '/' + filename, ext)
                 pA.pixelImage()
-                pA.generateGIF(waitDuration)
+                pA.generateGIF(waitDuration * 1000)
 
 
 if __name__ == "__main__":
