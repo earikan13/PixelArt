@@ -11,20 +11,22 @@ import cv2
 import numpy as np
 import imageio.v3 as iio
 from pygifsicle import optimize
+import os
 
 
 class PixelArt:
 
     def __init__(self, img, imgExtension, downscalePerc=10):
         self.downscalePerc = downscalePerc
-        self.imgName = str(img)
-        self.img = cv2.imread(self.imgName + '.' + str(imgExtension))
+        self.imgName = str(img).rsplit('/', -1)[-1]
+        self.path = os.path.dirname(os.path.dirname(img))
+        self.img = cv2.imread(img + '.' + str(imgExtension))
         self.img = cv2.cvtColor(self.img, cv2.COLOR_BGR2RGB)
         self.imgHeight, self.imgWidth = self.img.shape[:-1]
-        self.imgHeight = int(self.imgHeight / downscalePerc)
-        self.imgWidth = int(self.imgWidth / downscalePerc)
+        self.imgHeight = 320
+        self.imgWidth = 480
         self.img = cv2.resize(
-            self.img, (self.imgWidth, self.imgHeight), cv2.INTER_LINEAR)
+            self.img, (480, 320), cv2.INTER_LINEAR)
 
     def pixelImage(self):
         scale_percent = 3 * self.downscalePerc  # percent of original size
@@ -36,22 +38,23 @@ class PixelArt:
             self.pixelledImage, (self.imgWidth, self.imgHeight), interpolation=cv2.INTER_NEAREST)
 
     def combineImages(self, step, direction):
-        if direction == 0:
+        if direction == 0:  # Left to right
             step = int(self.imgWidth * step / 100)
             tmpPixelImg = self.pixelledImage[:, :step]
             tmpImg = self.img[:, step:]
             self.combinedImg = np.hstack((tmpPixelImg, tmpImg))
-        elif direction == 1:
+        elif direction == 1:  # Right to left
             step = int(self.imgWidth * step / 100)
-            tmpPixelImg = self.pixelledImage[:, step:]
-            tmpImg = self.img[:, :step]
+            tmpPixelImg = self.pixelledImage[:,
+                                             self.pixelledImage.shape[1]-step:]
+            tmpImg = self.img[:, :self.pixelledImage.shape[1]-step]
             self.combinedImg = np.hstack((tmpImg, tmpPixelImg))
-        elif direction == 2:
+        elif direction == 2:  # Down to up
             step = int(self.imgHeight * step / 100)
-            tmpPixelImg = self.pixelledImage[step:]
-            tmpImg = self.img[:step]
+            tmpPixelImg = self.pixelledImage[self.pixelledImage.shape[0]-step:]
+            tmpImg = self.img[:self.pixelledImage.shape[0]-step]
             self.combinedImg = np.vstack((tmpImg, tmpPixelImg))
-        else:
+        elif direction == 3:  # Up to down
             step = int(self.imgHeight * step / 100)
             tmpPixelImg = self.pixelledImage[:step]
             tmpImg = self.img[step:]
@@ -63,8 +66,9 @@ class PixelArt:
         for i in np.arange(0, 105, 5):
             self.combineImages(i, direction)
             images.append(self.combinedImg)
-        iio.imwrite('PixelledGIF.gif', images, duration=dur, loop=0)
-        optimize('PixelledGIF.gif')
+        gifName = self.path + '/' + "GIFs" + '/' + "Pixelled" + self.imgName + ".gif"
+        iio.imwrite(gifName, images, duration=dur, loop=0)
+        optimize(gifName)
 
     def generateDirection(self):
         rng = np.random.default_rng()
