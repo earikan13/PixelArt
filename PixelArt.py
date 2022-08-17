@@ -21,12 +21,14 @@ class PixelArt:
         self.imgName = str(img).rsplit('/', -1)[-1]
         self.path = os.path.dirname(os.path.dirname(img))
         self.img = cv2.imread(img + '.' + str(imgExtension))
-        self.img = cv2.cvtColor(self.img, cv2.COLOR_BGR2RGB)
-        self.imgHeight, self.imgWidth = self.img.shape[:-1]
-        self.imgHeight = 320
-        self.imgWidth = 480
-        self.img = cv2.resize(
-            self.img, (480, 320), cv2.INTER_LINEAR)
+        self.img = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
+        self.imgHeight, self.imgWidth = self.img.shape
+        if self.imgHeight != 320 or self.imgWidth != 480:
+            self.imgHeight = 320
+            self.imgWidth = 480
+            self.img = cv2.resize(
+                self.img, (480, 320), cv2.INTER_LINEAR)
+            cv2.imwrite(img + '.' +imgExtension, self.img)
 
     def pixelImage(self):
         scale_percent = 3 * self.downscalePerc  # percent of original size

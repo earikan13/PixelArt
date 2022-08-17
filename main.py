@@ -15,7 +15,8 @@ waitDuration = 5
 possibleExtensions = [".JPG", ".jpg", ".PNG", ".png", ".JPEG", ".jpeg"]
 
 
-def main():
+def main(args):
+    #args = sys.argv[1]
     currentDir = os.getcwd()
     photosDir = currentDir + '/' + 'Images'
     path = Path(photosDir)
@@ -24,12 +25,13 @@ def main():
             filename, ext = filename.rsplit('.', 1)
             tmpPath = Path(currentDir + '/' + "GIFs" + '/' +
                            "Pixelled" + filename + ".gif")
-            if not os.path.isfile(tmpPath):
+            if not os.path.isfile(tmpPath) or args == 1:
                 pA = PixelArt(photosDir + '/' + filename, ext)
                 pA.pixelImage()
                 pA.generateGIF(waitDuration * 1000)
+    
 
 
 if __name__ == "__main__":
-    main()
+    main(1)
     sys.exit(0)
