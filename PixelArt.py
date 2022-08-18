@@ -32,8 +32,8 @@ class PixelArt:
 
     def pixelImage(self):
         scale_percent = 3 * self.downscalePerc  # percent of original size
-        width = int(self.img.shape[1] * scale_percent / 100)
-        height = int(self.img.shape[0] * scale_percent / 100)
+        width = int(self.img.shape[1] * scale_percent / 150)
+        height = int(self.img.shape[0] * scale_percent / 150)
         self.pixelledImage = cv2.resize(
             self.img, (width, height), interpolation=cv2.INTER_LINEAR)
         self.pixelledImage = cv2.resize(
