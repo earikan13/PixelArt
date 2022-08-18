@@ -25,10 +25,10 @@ def main(args):
             filename, ext = filename.rsplit('.', 1)
             tmpPath = Path(currentDir + '/' + "GIFs" + '/' +
                            "Pixelled" + filename + ".gif")
-            if not os.path.isfile(tmpPath) or args == 1:
-                pA = PixelArt(photosDir + '/' + filename, ext)
-                pA.pixelImage()
-                pA.generateGIF(waitDuration * 1000)
+            #if not os.path.isfile(tmpPath) or args == 1:
+            pA = PixelArt(photosDir + '/' + filename, ext)
+            pA.pixelImage()
+            pA.generateGIF(waitDuration * 1000)
     
 
 

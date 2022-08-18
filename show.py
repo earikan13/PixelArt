@@ -10,4 +10,4 @@ import sys
 import os
 from pathlib import Path
 
-os.system("mplayer -loop 0 /dev/fb0 " + "/GIFs/PixelledexampleImg.gif")
+os.system("mplayer --noverbose /dev/fb0 " + "GIFs/PixelledexampleImg.gif")
