@@ -28,6 +28,7 @@ class PixelArt:
             cv2.imwrite(img + '.' + imgExtension, self.img)
         self.img = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
         self.img = cv2.bitwise_not(self.img)        
+        self.img = cv2.addWeighted(self.img, 1, self.img, 0, -50)
 
     def pixelImage(self):
         scale_percent = 3 * self.downscalePerc  # percent of original size
