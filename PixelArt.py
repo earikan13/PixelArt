@@ -67,9 +67,11 @@ class PixelArt:
         if not os.path.exists(directory):
             os.makedirs(directory)
         direction = self.generateDirection()
+        cnt = 0
         for i in np.arange(0, 105, 5):
-            img_name = str(directory) + '/' + self.imgName + '-' +str(i) + ".png"
+            img_name = str(directory) + '/' + self.imgName + '-' + str(cnt) + ".png"
             cv2.imwrite(img_name, self.combineImages(i, direction))
+            cnt += 1
         
 
     def generateDirection(self):
