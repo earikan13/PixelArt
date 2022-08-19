@@ -31,7 +31,7 @@ class PixelArt:
         enhancer = ImageEnhance.Contrast(self.img)
         self.img = enhancer.enhance(0.5)
         self.img = Image.eval(self.img, lambda px: (px - 110))
-
+        
     def pixelImage(self):
         scale_percent = 3 * self.downscalePerc  # percent of original size
         width = int(self.img.size[1] * scale_percent / 150)
@@ -67,7 +67,7 @@ class PixelArt:
             combinedImg = np.vstack((tmpPixelImg, tmpImg))
         return combinedImg
     
-    def generateGIF(self, dur):
+    def generateGIF(self):
         directory = Path(self.path + "/Out/" + self.imgName)
         if not os.path.exists(directory):
             os.makedirs(directory)

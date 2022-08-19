@@ -10,25 +10,26 @@ from PixelArt import PixelArt
 import sys
 import os
 from pathlib import Path
+import show
 
-waitDuration = 5
 possibleExtensions = [".JPG", ".jpg", ".PNG", ".png", ".JPEG", ".jpeg"]
-
 
 def main(args):
     #args = sys.argv[1]
     currentDir = os.getcwd()
     photosDir = currentDir + '/' + 'Images'
     path = Path(photosDir)
-    for filename in os.listdir(path):
-        if filename.endswith(tuple(possibleExtensions)):
-            filename, ext = filename.rsplit('.', 1)
-            tmpPath = Path(currentDir + '/' + "GIFs" + '/' +
-                           "Pixelled" + filename + ".gif")
-            #if not os.path.isfile(tmpPath) or args == 1:
-            pA = PixelArt(photosDir + '/' + filename, ext)
-            pA.pixelImage()
-            pA.generateGIF(waitDuration * 1000)
+    while (True):
+        for filename in os.listdir(path):
+            if filename.endswith(tuple(possibleExtensions)):
+                filename, ext = filename.rsplit('.', 1)
+                tmpPath = Path(currentDir + '/' + "GIFs" + '/' +
+                               "Pixelled" + filename + ".gif")
+                #if not os.path.isfile(tmpPath) or args == 1:
+                pA = PixelArt(photosDir + '/' + filename, ext)
+                pA.pixelImage()
+                pA.generateGIF()
+                show.main()
     
 
 
