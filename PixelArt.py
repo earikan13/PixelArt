@@ -80,9 +80,8 @@ class PixelArt:
             cnt += 1
 
     def generateDirection(self):
-        rng = np.random.default_rng()
         # 0->left, 1->right, 2->up, 3->down
-        direction = rng.integers(low=0, high=4, size=1)
+        direction = np.random.choice[0,1,2,3]
         return direction
 
     def plotImage(self):
