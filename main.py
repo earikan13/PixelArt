@@ -30,7 +30,7 @@ def main(args):
                 pA.pixelImage()
                 pA.generateGIF()
                 show.main()
-    
+
 
 
 if __name__ == "__main__":

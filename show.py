@@ -8,27 +8,32 @@ Created on Wed Aug 17 13:18:02 2022
 
 import os
 from pathlib import Path
+import subprocess
+from time import sleep
 
 currentDir = os.getcwd() + "/Out"
 path = Path(currentDir)
 
 def create_piclist():
-    pwd = os.getcwd()
-    os.system("ls -1v -1 " + pwd + "/*.png > " +pwd + "/piclist.txt")
+    pngs = str(os.getcwd()) + "/*.png >"
+    piclist = str(os.getcwd()) + "/piclist.txt"
+    _ = subprocess.run(["ls", "-1v", "-1", pngs, piclist],shell=True)
 
-def kill_fbi(sleep, dur=2):
-    if not sleep:
-        os.system("sleep " + str(dur * 21))
-    os.system("kill $(pgrep fbi)")
-def animate(dur=2):
-    os.system("fbi -d /dev/fb0 -T 1 -t " + str(dur) + "--noonce --noverbose --list piclist.txt")
-    pass
-
+def kill_fbi():
+    _ = subprocess.run(["killall", "-9", "fbi"])
+    
+def sleep_for_dur(sleep_dur):
+    sleep(sleep_dur * 21)
+    
+def animate(sleep_dur):
+    _ = subprocess.run(["sudo", "fbi", "-d", "/dev/fb0", "-T", "1", "-t", str(sleep_dur), "--noverbose", "--once", "--list", "piclist.txt"])
+    
 def main():
-    kill_fbi(True)
+    subprocess.run(["killall", "-9", "fbi"])
     for filename in os.listdir(path):
-       if os.path.isdir(Path(currentDir + '/'  + filename)):
-           tmp=os.chdir(Path(currentDir + '/'  + filename))
-           create_piclist()
-           animate()
-           kill_fbi(False)
+      if os.path.isdir(Path(currentDir + '/'  + filename)):
+         os.chdir(Path(currentDir + '/'  + filename))
+         create_piclist() 
+         animate(120)
+         sleep_for_dur(120)
+         _ = subprocess.run(["killall", "-9", "fbi"])

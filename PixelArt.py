@@ -34,8 +34,8 @@ class PixelArt:
         
     def pixelImage(self):
         scale_percent = 3 * self.downscalePerc  # percent of original size
-        width = int(self.img.size[1] * scale_percent / 150)
-        height = int(self.img.size[0] * scale_percent / 150)
+        width = int(self.img.size[1] * scale_percent / 175)
+        height = int(self.img.size[0] * scale_percent / 175)
         self.pixelledImage = self.img.resize(
             (width, height), Image.BILINEAR)
         self.pixelledImage = self.pixelledImage.resize(
